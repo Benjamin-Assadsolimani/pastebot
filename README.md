@@ -1,6 +1,6 @@
-#PasteBot
+# PasteBot
 
-##Requirements
+## Requirements
 
 Python packages:
 * Flask
