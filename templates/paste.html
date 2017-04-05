@@ -2,9 +2,7 @@
 {% block content %}
 <h1 class="page-header">Paste #{{paste.id}}{% if paste.name != "" %}: <font color="grey">{{paste.name}}</font>{% endif %}</h1>
 
-<textarea>
-{{paste.content}}
-</textarea>
-Author: {{paste.author}}
-category: {{paste.category}}
+<textarea id="paste_content" class="form-control" rows="5">{{paste.content}}</textarea>
+
+
 {%  endblock %}

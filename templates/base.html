@@ -27,7 +27,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <form class="navbar-form navbar-right">
-            <input type="text" class="form-control" placeholder="username">
+            <input id="input_username" type="text" class="form-control" {%if glob_vars.username%}value="{{glob_vars.username}}"{%endif%} placeholder="username">
           </form>
           <ul class="nav navbar-nav navbar-right">
             {#<li><a href="#">Settings</a></li>#}
@@ -43,7 +43,7 @@
        
         <ul class="nav nav-sidebar">
         {% set current_category= [] %}
-        {% for p in nav %}
+        {% for p in glob_vars.nav %}
         {% if p.category not in current_category %}
         </ul>
         <h4>{{p.category}}</h4>
@@ -82,11 +82,16 @@
 	
 	$("kbd").click(function(e){
 	   e.preventDefault();
-	   $.get("/paste/"+e.target.id+"/remove", function(data, status){
+	   var id= e.target.id;
+	   $.get("/paste/"+id+"/remove", function(data, status){
         if(data == "1"){
         	e.target.parentElement.parentElement.remove();
         }
     });
+	});
+	
+	$('#input_username').on('input', function(e) {
+	    document.cookie="username= "+e.target.value+"; path=/";
 	});
     </script>
   </body>
