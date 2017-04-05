@@ -91,3 +91,6 @@ ENV/
 #PyDev Project files
 .project
 .pydevproject
+
+#Flask
+static/

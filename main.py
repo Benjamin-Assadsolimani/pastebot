@@ -2,13 +2,18 @@
 @author: DerBenOo
 '''
 
+from flask import Flask, render_template
+import sqlite3
 
-from flask import Flask
 app = Flask(__name__)
 
 @app.route("/")
-def hello():
-    return "<b>Helaa World!</b>"
+def index():
+    return render_template('index.html')
+
+@app.route("/scratchpad.html")
+def scratchpad():
+    return render_template('scratchpad.html')
 
 if __name__ == "__main__":
     app.run()
