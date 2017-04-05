@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-<h1 class="page-header">Paste #{{id}}</h1>
-slick!
+<h1 class="page-header">Paste #{{paste.id}}{% if paste.name != "" %}: <font color="grey">{{paste.name}}</font>{% endif %}</h1>
+
+<textarea>
+{{paste.content}}
+</textarea>
+Author: {{paste.author}}
+category: {{paste.category}}
 {%  endblock %}
