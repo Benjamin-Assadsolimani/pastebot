@@ -26,9 +26,10 @@
           <a class="navbar-brand" href="/">PasteBot</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right">
-            <input id="input_username" type="text" class="form-control" {%if glob_vars.username%}value="{{glob_vars.username}}"{%endif%} placeholder="username">
-          </form>
+          <form action="/paste/add" method="post" name="add_paste">
+          <div class="navbar-form navbar-right">
+            {{glob_vars.pasteform.author(id= "input_username", class= "form-control", size="25", maxlength="20", placeholder="username", value="" if glob_vars.username == None else glob_vars.username)}}
+          </div>
           <ul class="nav navbar-nav navbar-right">
             {#<li><a href="#">Settings</a></li>#}
           </ul>
@@ -40,59 +41,37 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-       
-        <ul class="nav nav-sidebar">
-        {% set current_category= [] %}
-        {% for p in glob_vars.nav %}
-        {% if p.category not in current_category %}
-        </ul>
-        <h4>{{p.category}}</h4>
-        <ul class="nav nav-sidebar">
-        {%set current_category= current_category.append(p.category)%}
-        {% endif %}
         
-		<li {% if paste%}
-		{% if paste.id == p.id %}
-		 class="active"
-		 {% endif %}
-		 {% endif %}>
-		 
+        <div>
+        	Sort by &nbsp;
+        	<input class="btn btn-xs btn-default btn-sort {%if glob_vars.sort_by_author   == "1" %}btn-primary{%endif%}" id="sort_by_author" type="button" value="author">
+        	<input class="btn btn-xs btn-default btn-sort {%if glob_vars.sort_by_category == "1" %}btn-primary{%endif%}" id="sort_by_category" type="button" value="category">
+        </div>
+        <br>
+        
+        <ul id="paste_list" class="nav nav-sidebar">
+        {%- for p in glob_vars.nav %}
+		<li class="{{p.author}}, {{p.category}}{%- if paste%}{%- if paste.id == p.id %}, active{%- endif %}{%- endif %}">
 		 <a href="/paste/{{p.id}}">
-		 <kbd id="{{p.id}}" data-toggle="tooltip" data-placement="top" title="Delete paste #{{p.id}}">
-		 #{{p.id}}</kbd>&nbsp; {{p.name}} &nbsp;<font color="darkgrey"><small>by {{p.author}}</small></font></a></li>
-		{%endfor%}
+		 <kbd class="paste-index" id="{{p.id}}" data-toggle="tooltip" data-placement="top" title="Delete paste #{{p.id}}">
+		 #{{p.id}}</kbd>&nbsp; {{p.name}} &nbsp;<font color="darkgrey"><small>by {%if glob_vars.username == p.author%}<b>{{p.author}}</b>{%else%}{{p.author}}{%endif%}</small></font></a>
+		</li>
+		{%- endfor %}
 		</ul>
 
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        {%block content%}  
-        {%endblock%}
+        {%- block content%}  
+        {%- endblock%}
         </div>
       </div>
+      </form>
     </div>
 
 
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-    
-    <script>
-	$(document).ready(function(){
-	    $('[data-toggle="tooltip"]').tooltip();   
-	});
-	
-	$("kbd").click(function(e){
-	   e.preventDefault();
-	   var id= e.target.id;
-	   $.get("/paste/"+id+"/remove", function(data, status){
-        if(data == "1"){
-        	e.target.parentElement.parentElement.remove();
-        }
-    });
-	});
-	
-	$('#input_username').on('input', function(e) {
-	    document.cookie="username= "+e.target.value+"; path=/";
-	});
-    </script>
+    <script src="{{ url_for('static', filename='js/custom.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/js.cookie.js') }}"></script>
   </body>
 </html>
