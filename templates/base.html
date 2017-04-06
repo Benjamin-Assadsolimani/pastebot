@@ -26,7 +26,7 @@
           <a class="navbar-brand" href="/">PasteBot</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-          <form action="/paste/add" method="post" name="add_paste">
+          <form action="/paste/add" method="post" name="add_paste" autocomplete="off">
           <div class="navbar-form navbar-right">
             {{glob_vars.pasteform.author(id= "input_username", class= "form-control", size="25", maxlength="20", placeholder="username", value="" if glob_vars.username == None else glob_vars.username)}}
           </div>
@@ -41,13 +41,18 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-        
+        {#
         <div>
         	Sort by &nbsp;
         	<input class="btn btn-xs btn-default btn-sort {%if glob_vars.sort_by_author   == "1" %}btn-primary{%endif%}" id="sort_by_author" type="button" value="author">
         	<input class="btn btn-xs btn-default btn-sort {%if glob_vars.sort_by_category == "1" %}btn-primary{%endif%}" id="sort_by_category" type="button" value="category">
         </div>
         <br>
+        #}
+        
+        <a><i id="refresh_pastes" class="flush-right glyphicon glyphicon-refresh"></i></a>
+        <a href="/paste"><i class="flush-right glyphicon glyphicon-plus-sign"></i></a>
+        <hr>
         
         <ul id="paste_list" class="nav nav-sidebar">
         {%- for p in glob_vars.nav %}

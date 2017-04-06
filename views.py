@@ -4,20 +4,17 @@ from models import Paste
 from forms import PasteForm
 
 @app.route("/")
-def index():
-    return render_template('index.html', glob_vars= get_glob_vars())
-
 @app.route('/paste')
-def paste_index():
-    return index()
+def new_paste():
+    return show_paste(-1)
 
 @app.route("/paste/<int:paste_id>")
 def show_paste(paste_id):
     paste= Paste.query.get(paste_id)
     if paste == None:
-        return index()
-    else:
-        return render_template('paste.html', paste= paste, glob_vars= get_glob_vars())
+        paste= Paste("")
+
+    return render_template('paste.html', paste= paste, glob_vars= get_glob_vars())
     
 @app.route('/paste/<int:paste_id>/remove/')
 def remove_paste(paste_id):
@@ -33,9 +30,19 @@ def remove_paste(paste_id):
 def create_paste():
     form= PasteForm(request.form)
     if request.method == 'POST' :
+        if form.id.data != None:
+            paste= Paste.query.get(form.id.data)
+            if paste != None:
+                paste.author= form.author.data
+                paste.content= form.content.data
+                paste.name= form.name.data
+                db.session.commit()
+                return redirect(url_for('show_paste', paste_id=paste.id))
+            
         paste= Paste(author= form.author.data, content= form.content.data, name= form.name.data)
         db.session.add(paste)
         db.session.commit()
+
         return redirect(url_for('show_paste', paste_id=paste.id))
  
     return "0"
