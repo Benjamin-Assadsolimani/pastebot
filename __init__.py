@@ -1,3 +1,5 @@
+execfile('env/bin/activate_this.py', dict(__file__='env/bin/activate_this.py'))
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 

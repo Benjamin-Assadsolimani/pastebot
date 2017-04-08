@@ -1,10 +1,11 @@
 ###############################
-#       MODULE TEMPLATE       #
+#       URL DECODE            #
 ###############################
+from urllib import unquote
 
-class Module():
+class Urldecode():
     def name(self):
-        return "name";
+        return "URL-Decode";
     
     #@return category of the module as a string (just for display purposes)
     def category(self):
@@ -13,7 +14,7 @@ class Module():
     #@input string 
     #@return match index [0, 1] indicating how well the input matches the module
     def match(self, input):
-        return 0
+        return 0.5
     
     #@input string
     #@return the processed user input
@@ -26,5 +27,5 @@ class Module():
         pass
 
 if __name__ == "__main__":
-    m= Module()
+    m= Urldecode()
     m.test()

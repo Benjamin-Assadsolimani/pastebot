@@ -1,31 +1,34 @@
 from base64 import b64decode
-from re import compile, findall, match
-import binascii
+from re import compile
 
-def match(input):
-    res= matchb64(input)
-    if res != None:
-        #check how much of total string is base64
-        return 1
-    else:
-        return 0
-
-def process(input):
-    try:
-        return b64decode(input)
-    except:
-        return "invalid base64!"
+class Base64():
+    def name(self):
+        return "base64-decode";
     
-
-def matchb64(input):
-    prog= compile("([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)")
-    res= prog.match(input)
-    return res
+    def match(self, input):
+        res= self.matchb64(input)
+        if res != None:
+            return 1
+        else:
+            return 0
     
+    def process(self, input):
+        try:
+            return b64decode(input.encode("utf8"))
+        except:
+            return "invalid base64!"
+        
     
-def test():
-    pass
+    def matchb64(self, input):
+        prog= compile("^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$")
+        res= prog.match(input)
+        return res
+        
+        
+    def test(self):
+        pass
 
 
 if __name__ == "__main__":
-    test()
+    m= Base64()
+    m.test()

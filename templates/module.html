@@ -1,0 +1,10 @@
+{% for module in modules %}
+<div id="module-{{module.id}}">
+	<div class="module-header">
+	<h3>{{module.score}}: {{module.name}}</h3>
+	</div>
+	<div class="module-body">
+		<textarea class="form-control" rows="3">{{module.content}}</textarea>
+	</div>
+</div>
+{% endfor %}

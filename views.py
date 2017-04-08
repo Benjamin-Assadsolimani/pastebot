@@ -2,6 +2,9 @@ from flask import render_template, request, redirect, url_for
 from __init__ import app, db
 from models import Paste
 from forms import PasteForm
+from modules.__init__ import matchModule, numModules, match
+from modules import processModule, getModuleName
+from modules import util
 
 @app.route("/")
 @app.route('/paste')
@@ -46,6 +49,40 @@ def create_paste():
         return redirect(url_for('show_paste', paste_id=paste.id))
  
     return "0"
+
+@app.route("/module/<int:module_id>/match", methods=['POST'])
+def match_module(module_id):
+    if request.method == 'POST':
+        data= request.form.getlist('content')[0]
+
+        if data != "":
+            module= {}
+            module["id"]= module_id
+            module["name"]= getModuleName(module_id)
+            module["score"]= matchModule(module_id, data)
+            
+            if module["score"] > 0.3:
+                module["content"]= processModule(module_id, data)
+                module["content"]= util.escapeNonPrintables(module["content"])
+            else:
+                module["content"]= ""
+
+            return render_template('module.html', modules= [module])
+
+    return "-1"
+
+@app.route('/module/match')
+def match_modules():
+    modules= []
+    module= {}
+    return render_template('module.html', modules= modules)
+    
+
+
+@app.route('/module/<int:module_id>/process')
+def process_module(module_id):
+    res= processModule(module_id, "dGVzdA==")
+    return res
     
 def get_glob_vars():
     glob_vars= {}
@@ -54,4 +91,5 @@ def get_glob_vars():
     glob_vars["sort_by_author"]= request.cookies.get('sort_by_author')
     glob_vars["sort_by_category"]= request.cookies.get('sort_by_category')
     glob_vars["pasteform"]= PasteForm()
+    glob_vars["num_modules"]= numModules()
     return glob_vars
