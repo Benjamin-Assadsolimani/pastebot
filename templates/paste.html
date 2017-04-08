@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 {%set form= glob_vars.pasteform%}
+
+<div class="col-sm-12 mb-3" id="paste-container">
 <h1 class="page-header">
 {%- if paste.id != None %}Paste #{{paste.id}}{%- else %}New Paste{%- endif %}: {{form.name(id="paste_name", class="input-paste-name", placeholder="name", value=paste.name ,size="25", maxlength="20")}}</h1>
 
@@ -12,8 +14,11 @@
 <button type="submit" class="btn btn-primary">
 Save paste
 </button>
+</div>
 
-<div id="module-container">
+<div class="col-sm-13" id="modules-container">
+{% set modules= paste.modules %}
+{% include 'module.html' %}
 
 </div>
 

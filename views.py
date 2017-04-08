@@ -2,9 +2,6 @@ from flask import render_template, request, redirect, url_for
 from __init__ import app, db
 from models import Paste
 from forms import PasteForm
-from modules.__init__ import matchModule, numModules, match
-from modules import processModule, getModuleName
-from modules import util
 
 @app.route("/")
 @app.route('/paste')
@@ -16,7 +13,8 @@ def show_paste(paste_id):
     paste= Paste.query.get(paste_id)
     if paste == None:
         paste= Paste("")
-
+    
+    print(paste.modules)
     return render_template('paste.html', paste= paste, glob_vars= get_glob_vars())
     
 @app.route('/paste/<int:paste_id>/remove/')
@@ -25,6 +23,8 @@ def remove_paste(paste_id):
     if paste == None:
         return "0"
     else:
+        for module in paste.modules:
+            db.session.delete(module)
         db.session.delete(paste)
         db.session.commit()
         return "1"
@@ -91,5 +91,4 @@ def get_glob_vars():
     glob_vars["sort_by_author"]= request.cookies.get('sort_by_author')
     glob_vars["sort_by_category"]= request.cookies.get('sort_by_category')
     glob_vars["pasteform"]= PasteForm()
-    glob_vars["num_modules"]= numModules()
     return glob_vars
