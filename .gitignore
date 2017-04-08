@@ -95,3 +95,4 @@ ENV/
 #Flask
 static/
 *.db
+db.old/
