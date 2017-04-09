@@ -2,12 +2,13 @@
 
 <div class="col-sm-6">
 	<div class="panel panel-default">
-		<div class="panel-heading module-header striped-header">
-			<strong>{{module.name}}</strong> <span class="text-muted">matching score: {{module.score}}</span>
+		<div class="panel-heading module-header">
+			{{module.form.score(size="1", readonly= true, class="input-read-only")}}
+			<strong>{{module.form.name(size="20", readonly= true, class="input-read-only")}}</strong>
 			<i class="flush-right glyphicon glyphicon-star-empty module-star"></i>
 		</div>
-		<div class="module-body">
-			<textarea class="form-control" rows="3">{{module.content}}</textarea>
+		<div class="module-body" {% if module.form.content.data == "" %} style="display: none;" {% endif %}>
+			{{module.form.content(readonly= true, rows="5", class="form-control")}}
 		</div>
 	</div>
 </div>

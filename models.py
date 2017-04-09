@@ -19,7 +19,7 @@ class Module(db.Model):
     id          = db.Column(db.Integer, primary_key=True)
     name        = db.Column(db.String(40))
     content     = db.Column(db.String(5000))
-    score       = db.Column(db.Integer)
+    score       = db.Column(db.Float)
     module_id   = db.Column(db.Integer)
     paste_id    = db.Column(db.Integer, db.ForeignKey('paste.id'))
     

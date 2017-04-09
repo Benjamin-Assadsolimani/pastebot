@@ -1,7 +1,9 @@
 from flask import render_template, request, redirect, url_for
 from __init__ import app, db
 from models import Paste
+import json
 from forms import PasteForm
+from modules import getModule
 
 @app.route("/")
 @app.route('/paste')
@@ -14,8 +16,13 @@ def show_paste(paste_id):
     if paste == None:
         paste= Paste("")
     
-    print(paste.modules)
-    return render_template('paste.html', paste= paste, glob_vars= get_glob_vars())
+    nav         = Paste.query.all()
+    username    = request.cookies.get('username')
+    
+    paste_form  = PasteForm()
+    paste_form.populate(paste)
+    
+    return render_template('paste.html', form= paste_form, nav= nav, username= username)
     
 @app.route('/paste/<int:paste_id>/remove/')
 def remove_paste(paste_id):
@@ -50,45 +57,33 @@ def create_paste():
  
     return "0"
 
-@app.route("/module/<int:module_id>/match", methods=['POST'])
-def match_module(module_id):
-    if request.method == 'POST':
-        data= request.form.getlist('content')[0]
-
-        if data != "":
-            module= {}
-            module["id"]= module_id
-            module["name"]= getModuleName(module_id)
-            module["score"]= matchModule(module_id, data)
-            
-            if module["score"] > 0.3:
-                module["content"]= processModule(module_id, data)
-                module["content"]= util.escapeNonPrintables(module["content"])
-            else:
-                module["content"]= ""
-
-            return render_template('module.html', modules= [module])
-
-    return "-1"
-
-@app.route('/module/match')
+@app.route('/module/match', methods=['POST'])
 def match_modules():
-    modules= []
-    module= {}
-    return render_template('module.html', modules= modules)
+    pass
     
 
 
-@app.route('/module/<int:module_id>/process')
+@app.route('/module/<int:module_id>/process', methods=['POST'])
 def process_module(module_id):
-    res= processModule(module_id, "dGVzdA==")
-    return res
-    
-def get_glob_vars():
-    glob_vars= {}
-    glob_vars["nav"]= Paste.query.order_by(Paste.category).all()
-    glob_vars["username"]= request.cookies.get('username')
-    glob_vars["sort_by_author"]= request.cookies.get('sort_by_author')
-    glob_vars["sort_by_category"]= request.cookies.get('sort_by_category')
-    glob_vars["pasteform"]= PasteForm()
-    return glob_vars
+    data= getData()
+    if data != None:
+        m= getModule(module_id)
+        if m != None:
+            try:
+                return m.process(data)
+            except:
+                return "Module had an error while processing data!"
+    return "Error!"
+
+
+def getData():
+    if request.method == 'POST':
+        if request.data:
+            try:
+                data= json.loads(request.data)
+                if "data" in data:
+                    return data["data"]
+            except ValueError:
+                return None
+                    
+    return None

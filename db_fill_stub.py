@@ -8,12 +8,11 @@ Paste(content= "content-2", category="category-1", name="name-2", author="author
 Paste(content= "content-3", category="category-1", name="name-3", author="author-3"),
 Paste(content= "content-4", category="category-2", name="name-4", author="author-4"),
 Paste("content5"),
-Module("module-2", 0.4, "content-mod-2", 1),
-Module("module-1", 0.3, "content-mod-1", 1),
-Module("module-4", 0.7, "content-mod-4", 1),
-Module("module-3", 0.5, "content-mod-3", 1)
+Module(name="module-1", score=0.3, content="content-mod-1", module_id=1, paste_id=1),
+Module(name="module-2", score=0.7, content="content-mod-2", module_id=2, paste_id=1),
+Module(name="module-3", score=0.5, content="content-mod-3", module_id=3, paste_id=1),
+Module(name="module-4", score=0.4, content="content-mod-4", module_id=1, paste_id=1)
 ]
-
 
 for paste in p:
     db.session.add(paste)
