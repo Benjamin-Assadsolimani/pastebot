@@ -1,6 +1,6 @@
 ![Alt text](/static/img/header.png?raw=true "PasteBot")
 
-# PasteBot
+PasteBot is designed to be used in a CTF environment to enable a team to share relevant "pastes" whith each other. PasteBot additionally tries to categorize pastes and offer useful transformations e.g. base64 decoding.
 
 ## Installation
 
