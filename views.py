@@ -66,10 +66,12 @@ def match_modules():
 @app.route('/module/<int:module_id>/process', methods=['POST'])
 def process_module(module_id):
     data= getData()
+    
     if data != None:
         m= getModule(module_id)
         if m != None:
             try:
+                print data
                 return m.process(data)
             except:
                 return "Module had an error while processing data!"

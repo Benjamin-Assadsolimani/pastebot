@@ -8,7 +8,8 @@
 			<i class="flush-right glyphicon glyphicon-star-empty module-star"></i>
 		</div>
 		<div class="module-body" {% if module.form.content.data == "" %} style="display: none;" {% endif %}>
-			{{module.form.content(readonly= true, rows="5", class="form-control")}}
+			{{module.form.content(id= "module_content", readonly= true, rows="5", class="form-control")}}
+			{{module.form.module_id(id="module_id", type= "hidden")}}
 		</div>
 	</div>
 </div>

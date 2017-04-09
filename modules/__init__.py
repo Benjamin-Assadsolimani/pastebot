@@ -7,6 +7,6 @@ MODULES= [
     ]
 
 def getModule(module_id):
-    if module_id < MODULES:
+    if module_id < len(MODULES):
         return MODULES[module_id]
     return None
