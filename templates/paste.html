@@ -1,23 +1,21 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="col-sm-12 mb-3" id="paste-container">
-<h1 class="page-header">
-{%- if form.id.data != None %}Paste #{{form.id.data}}{%- else %}New Paste{%- endif %}: {{form.name(class="input-paste-name", placeholder="name", size="25", maxlength="20")}}</h1>
-
-{{form.content(id="paste_content", class="form-control", rows="5")}}
-
-<br />
-{%- if form.id.data != None %}<input type="hidden" name="id" value="{{form.id.data}}">{% endif %}
-<button type="submit" class="btn btn-primary">
-Save paste
-</button>
+<div class="col-sm-12" id="paste-container">
+	<h1 class="page-header">
+	{%- if form.id.data != None %}Paste #{{form.id.data}}{%- else %}New Paste{%- endif %}: {{form.name(id= "paste_name", class="input-paste-name", placeholder="name", size="25", maxlength="20")}}</h1>
+	
+	{{form.content(id="paste_content", class="form-control", rows="5")}}
+	
+	<br />
+	{%- if form.id.data != None %}<input type="hidden" name="id" value="{{form.id.data}}">{% endif %}
+	<button type="submit" class="btn btn-primary">
+	Save paste
+	</button>
 </div>
 
 <div class="col-sm-13" id="modules-container">
-{% set modules= form.modules %}
-{% include 'module.html' %}
-
+	{%- include 'module.html' %}
 </div>
 
 {%  endblock %}

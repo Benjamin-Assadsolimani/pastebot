@@ -11,10 +11,17 @@ class ModuleForm(FlaskForm):
     module_id   = IntegerField('module_id')
     
     def populate(self, module):
-        self.name       = module.name
-        self.content    = module.content
-        self.score      = module.score
-        self.module_id  = module.module_id
+        if isinstance(module, dict):
+            self.name       = module["name"]
+            self.content    = module["content"]
+            self.score      = module["score"]
+            self.module_id  = module["module_id"]
+        else:
+            self.name       = module.name
+            self.content    = module.content
+            self.score      = module.score
+            self.module_id  = module.module_id
+                
         
     
 class PasteForm(FlaskForm):
@@ -30,7 +37,10 @@ class PasteForm(FlaskForm):
         self.content.data    = paste.content
         self.author.data     = paste.author
         
-        for module in paste.modules:
+        self.populateModules(paste.modules)
+    
+    def populateModules(self, modules):  
+        for module in modules:
             module_form = ModuleForm()
             module_form.populate(module)
             self.modules.append_entry(module_form)

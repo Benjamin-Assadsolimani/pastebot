@@ -3,7 +3,7 @@ from __init__ import app, db
 from models import Paste
 import json
 from forms import PasteForm
-from modules import getModule
+import modules
 
 @app.route("/")
 @app.route('/paste')
@@ -59,7 +59,15 @@ def create_paste():
 
 @app.route('/module/match', methods=['POST'])
 def match_modules():
-    pass
+    data= getData()
+    if data != None:
+        m= modules.match(data)
+        paste_form= PasteForm()
+        paste_form.populateModules(m)
+        
+        return render_template('module.html', form= paste_form)
+    
+    return "Error while trying to match modules!";
     
 
 
@@ -68,10 +76,9 @@ def process_module(module_id):
     data= getData()
     
     if data != None:
-        m= getModule(module_id)
+        m= modules.getModule(module_id)
         if m != None:
             try:
-                print data
                 return m.process(data)
             except:
                 return "Module had an error while processing data!"

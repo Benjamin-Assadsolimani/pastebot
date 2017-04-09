@@ -2,5 +2,4 @@
 
 ## Requirements
 
-Python packages:
-* Flask
+Install virtualenv: pip install -r requirements.txt

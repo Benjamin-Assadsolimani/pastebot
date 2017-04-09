@@ -2,7 +2,7 @@ $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip(); 
 });
 
-$(".paste-index").click(function(e){
+$('body').on('click', '.paste-index', function(e){
 	e.preventDefault();
 	var id= e.target.id;
 	$.get("/paste/"+id+"/remove", function(data, status){
@@ -12,26 +12,15 @@ $(".paste-index").click(function(e){
 	});
 });
 
-$(".btn-sort").click(function(e){
-	var button= $("#"+e.target.id);
-	if(button.hasClass("btn-primary")){
-		button.removeClass("btn-primary");
-		Cookies.remove(e.target.id);
-	}else{
-		button.addClass("btn-primary");
-		Cookies.set(e.target.id, "1");
-	}
-});
-
 $('#input_username').on('input', function(e) {
     Cookies.set("username", e.target.value);
 });
 
-$('#refresh_pastes').click(function(e){
+$('body').on('click', '#refresh_pastes', function(e){
 	location.reload();
 });
 
-$('#paste_area').bind('input propertychange', function(e) {
+$('#paste_content').bind('input propertychange', function(e) {
 	if($('#paste_name').val() == ""){
 		var content= e.target.value;
 		if(content.length > 20){
@@ -39,28 +28,25 @@ $('#paste_area').bind('input propertychange', function(e) {
 		}
 		$('#paste_name').val(content);
 	}
+	matchModules();
 });
 
-$('.module-header').click(function(e){
+$('body').on('click', '.module-header', function(e){
 	var module_body= $(this).parent().children('.module-body');
 	
 	if(module_body.is(":hidden")){
-
-		
+		refreshModule(module_body);
 	}
-
 	module_body.toggle();
-
-	
 });
 
-$('.module-star').click(function(e){
+$('body').on('click', '.module-star', function(e){
 	$(this).toggleClass('glyphicon-star');
 	$(this).toggleClass('glyphicon-star-empty');	
 	e.stopPropagation();
 });
 
-function refreshModule(){
+function refreshModule(module_body){
 	var id= $(module_body).children('#module_id').val();
 	var paste_content= $('#paste_content').val();
 	var module_area= module_body.children('#module_content');
@@ -73,6 +59,21 @@ function refreshModule(){
 		success : function(text)
 		{
 			$(module_area).val(text);
+		}
+	});
+}
+
+function matchModules(){
+	var paste_content= $('#paste_content').val();
+	
+	$.ajax({
+		type: "POST",
+		contentType: "application/json; charset=utf-8",
+		url: "/module/match",
+		data: JSON.stringify({data: paste_content}),
+		success : function(text)
+		{
+			$('#modules-container').html(text);
 		}
 	});
 }
