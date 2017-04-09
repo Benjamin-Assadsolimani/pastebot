@@ -1,3 +1,5 @@
+![Alt text](/static/img/header.png?raw=true "PasteBot")
+
 # PasteBot
 
 ## Installation
