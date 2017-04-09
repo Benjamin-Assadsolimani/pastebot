@@ -4,6 +4,7 @@ from models import Paste, Module
 import json
 from forms import PasteForm
 import modules
+import module_handler
 
 @app.route("/")
 @app.route('/paste')
@@ -60,7 +61,6 @@ def create_paste():
         
         
         for module in form.modules:
-            print module.content.data
             m= Module(name= module.mod_name.data,
                       score= module.score.data, 
                       content= module.content.data, 
@@ -79,7 +79,7 @@ def match_modules():
     data= getPostData()
     if data != None:
         if "data" in data:
-            m= modules.match(data["data"])
+            m= module_handler.match(data["data"])
             m.sort(key= lambda x:x["score"], reverse= True)
             paste_form= PasteForm()
             paste_form.populateModules(m)
@@ -97,7 +97,7 @@ def process_module(module_id):
     if data != None:
         if "data" in data:
             data= data["data"]
-            m= modules.getModule(module_id)
+            m= module_handler.getModule(module_id)
             if m != None:
                 try:
                     return m.process(data)

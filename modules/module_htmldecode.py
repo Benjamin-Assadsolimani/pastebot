@@ -1,21 +1,30 @@
 ###############################
-#       MODULE TEMPLATE       #
+#       HTML Decode           #
 ###############################
+from __future__ import division
+import HTMLParser
 
 class Module():
     def name(self):
-        return "name";
-
+        return "HTML-Decode";
     
     #@input string 
     #@return match index [0, 1] indicating how well the input matches the module
     def match(self, text):
-        return 0
+        score= (text.count('&')+text.count(';'))/(len(text)+1)
+        score*=5
+        if score > 1:
+            score= 1
+        return score
     
     #@input string
     #@return the processed user input
     def process(self, text):
-        return input
+        try:
+            parser = HTMLParser.HTMLParser()
+            return parser.unescape(text)
+        except:
+            return "HTMLParser error!"
     
     
     #self-testing

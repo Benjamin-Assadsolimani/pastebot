@@ -1,27 +1,28 @@
+from __future__ import division
 from base64 import b64decode
-from re import compile
+import re
 
-class Base64():
+class Module():
     def name(self):
         return "Base64-Decode";
     
-    def match(self, input):
-        res= self.matchb64(input)
+    def match(self, text):
+        res= self.matchb64(text)
         if res != None:
             return 1
         else:
             return 0
     
-    def process(self, input):
+    def process(self, text):
         try:
-            return b64decode(input.encode("utf8"))
+            return b64decode(text.encode("utf8"))
         except:
             return "invalid base64!"
         
     
-    def matchb64(self, input):
-        prog= compile("^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$")
-        res= prog.match(input)
+    def matchb64(self, text):
+        prog= re.compile("^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$")
+        res= prog.match(text)
         return res
         
         
@@ -30,5 +31,5 @@ class Base64():
 
 
 if __name__ == "__main__":
-    m= Base64()
+    m= Module()
     m.test()

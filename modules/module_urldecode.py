@@ -4,15 +4,15 @@
 from __future__ import division
 from urllib import unquote
 
-class Urldecode():
+class Module():
     def name(self):
         return "URL-Decode";
     
     #@input string 
     #@return match index [0, 1] indicating how well the input matches the module
     def match(self, text):
-        score= text.count('%')/len(text)
-        score*=3
+        score= text.count('%')/(len(text)+1)
+        score*=5
         if score > 1:
             score= 1
             
@@ -31,5 +31,5 @@ class Urldecode():
         pass
 
 if __name__ == "__main__":
-    m= Urldecode()
+    m= Module()
     m.test()
