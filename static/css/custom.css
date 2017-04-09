@@ -54,6 +54,14 @@ div[data-percentage]:before {
     content: attr(data-percentage);
 }
 
+.navbar-brand {
+	padding: 0px;
+}
+.navbar-brand>img {
+	height: 100%;
+	width: auto;
+}
+
 #refresh_pastes{
 	cursor: pointer;
 	transition-property: transform, color;
