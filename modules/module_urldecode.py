@@ -3,6 +3,7 @@
 ###############################
 from __future__ import division
 from urllib import unquote
+import re
 
 class Module():
     def name(self):
@@ -11,8 +12,10 @@ class Module():
     #@input string 
     #@return match index [0, 1] indicating how well the input matches the module
     def match(self, text):
-        score= text.count('%')/(len(text)+1)
-        score*=5
+        errors= len(re.findall('[^#:\-%./a-zA-z0-9]', text))
+        matches= len(re.findall('%[A-F0-9][A-F0-9]', text))*3-errors
+        score= matches/(len(text)+1)
+        score*=3
         return score
     
     #@input string

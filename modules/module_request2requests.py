@@ -79,11 +79,11 @@ class Module(object):
         return "Request2Requests"
     
     def match(self, text):
-        count= 0
-        for s in REGEXP_HEADERS_SUPPORTED:
-            count+= text.count(s)
-        score= count*0.2
-        return score
+        if len(REGEXP_REQUEST.search(text).group("METHOD")) > 0:
+            if len(REGEXP_HOST.search(text).group(0))  > 0:
+                return 1
+
+        return 0
 
     def process(self, text):
         self.request= text

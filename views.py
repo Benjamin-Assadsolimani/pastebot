@@ -2,8 +2,9 @@ from flask import render_template, request, redirect, url_for
 from __init__ import app, db
 from models import Paste, Module
 import json
+import traceback
 from forms import PasteForm
-import modules
+import sys
 import module_handler
 
 @app.route("/")
@@ -102,7 +103,8 @@ def process_module(module_id):
                 try:
                     return m.process(data)
                 except:
-                    return "Module had an error while processing data!"
+                    return "Module had an error while processing data:"+str(sys.exc_info()[0])+"\n"+traceback.format_exc()
+                    
     return "Error!"
 
 

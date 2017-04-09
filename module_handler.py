@@ -23,6 +23,8 @@ def match(data):
             score= module.match(data)
             if score > 1:
                 score= 1
+            if score <0:
+                score= 0
             m["score"]= score
         except:
             m["score"]= 0
