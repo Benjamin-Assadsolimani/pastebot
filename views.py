@@ -1,6 +1,6 @@
 from flask import render_template, request, redirect, url_for
 from __init__ import app, db
-from models import Paste
+from models import Paste, Module
 import json
 from forms import PasteForm
 import modules
@@ -39,18 +39,35 @@ def remove_paste(paste_id):
 @app.route('/paste/add', methods=['POST'])
 def create_paste():
     form= PasteForm(request.form)
+
     if request.method == 'POST' :
+        paste= None
         if form.id.data != None:
             paste= Paste.query.get(form.id.data)
             if paste != None:
                 paste.author= form.author.data
                 paste.content= form.content.data
                 paste.name= form.name.data
-                db.session.commit()
-                return redirect(url_for('show_paste', paste_id=paste.id))
+                
+                #remove modules
+                for module in paste.modules:
+                    db.session.delete(module)
+        
+        if paste == None:    
+            paste= Paste(author= form.author.data, content= form.content.data, name= form.name.data)
+            db.session.add(paste)
+        db.session.commit()
+        
+        
+        for module in form.modules:
+            print module.content.data
+            m= Module(name= module.mod_name.data,
+                      score= module.score.data, 
+                      content= module.content.data, 
+                      module_id= module.module_id.data, 
+                      paste_id= paste.id)
+            db.session.add(m)
             
-        paste= Paste(author= form.author.data, content= form.content.data, name= form.name.data)
-        db.session.add(paste)
         db.session.commit()
 
         return redirect(url_for('show_paste', paste_id=paste.id))

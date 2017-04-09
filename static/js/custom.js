@@ -46,6 +46,7 @@ $('body').on('click', '.module-star', function(e){
 	e.stopPropagation();
 });
 
+
 function refreshModule(module_body){
 	var id= $(module_body).children('#module_id').val();
 	var paste_content= $('#paste_content').val();
