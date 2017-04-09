@@ -15,7 +15,7 @@ class Module():
     #@input string
     #@return the processed user input
     def process(self, text):
-        return input
+        return text
     
     
     #self-testing

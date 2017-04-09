@@ -94,3 +94,4 @@ ENV/
 #Flask
 *.db
 db.old/
+.settings/

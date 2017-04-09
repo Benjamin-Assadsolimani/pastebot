@@ -13,8 +13,6 @@ class Module():
     def match(self, text):
         score= (text.count('&')+text.count(';'))/(len(text)+1)
         score*=5
-        if score > 1:
-            score= 1
         return score
     
     #@input string

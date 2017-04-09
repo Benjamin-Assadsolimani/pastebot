@@ -3,7 +3,8 @@ from modules import *
 MODULES= [
     module_base64.Module(),
     module_urldecode.Module(),
-    module_htmldecode.Module()
+    module_htmldecode.Module(),
+    module_request2requests.Module()
     ]
 
 def getModule(module_id):
@@ -19,7 +20,10 @@ def match(data):
         m["module_id"]= module_id
         m["content"]= ""
         try:
-            m["score"]= module.match(data)
+            score= module.match(data)
+            if score > 1:
+                score= 1
+            m["score"]= score
         except:
             m["score"]= 0
         res.append(m)
