@@ -4,7 +4,8 @@ MODULES= [
     module_base64.Module(),
     module_urldecode.Module(),
     module_htmldecode.Module(),
-    module_request2requests.Module()
+    module_request2requests.Module(),
+    module_caesar.Module()
     ]
 
 def getModule(module_id):
