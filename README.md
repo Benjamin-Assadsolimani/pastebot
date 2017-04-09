@@ -1,5 +1,15 @@
 # PasteBot
 
-## Requirements
+## Installation
 
-Install virtualenv: pip install -r requirements.txt
+```python
+pip install virtualenv
+git clone https://github.com/Benjamin-Assadsolimani/pastebot.git
+cd pastebot
+pip install -r env/requirements.txt
+```
+## Run
+
+```python
+./main.py
+```
