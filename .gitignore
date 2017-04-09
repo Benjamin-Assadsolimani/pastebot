@@ -93,6 +93,5 @@ ENV/
 .pydevproject
 
 #Flask
-static/
 *.db
 db.old/
