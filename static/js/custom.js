@@ -34,7 +34,7 @@ $('#paste_content').bind('input propertychange', function(e) {
 $('body').on('click', '.module-header', function(e){
 	var module_body= $(this).parent().children('.module-body');
 	
-	if(module_body.is(":hidden")){
+	if(module_body.is(":hidden") && module_body.children('#module_content').val()==""){
 		refreshModule(module_body);
 	}
 	module_body.toggle();
@@ -65,13 +65,15 @@ function refreshModule(module_body){
 }
 
 function matchModules(){
-	var paste_content= $('#paste_content').val();
+	var post_data= {}
+	post_data.data= $('#paste_content').val();
+	post_data.bookmarked= [];
 	
 	$.ajax({
 		type: "POST",
 		contentType: "application/json; charset=utf-8",
 		url: "/module/match",
-		data: JSON.stringify({data: paste_content}),
+		data: JSON.stringify(post_data),
 		success : function(text)
 		{
 			$('#modules-container').html(text);

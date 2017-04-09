@@ -2,12 +2,12 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, validators
 from wtforms.validators import DataRequired
 from wtforms.fields.simple import TextAreaField
-from wtforms.fields.core import IntegerField, FieldList, FloatField, FormField
+from wtforms.fields.core import IntegerField, FieldList, FormField, DecimalField
 
 class ModuleForm(FlaskForm):
     mod_name    = StringField('mod_name', [validators.Length(min=1, max=40)])
     content     = TextAreaField('content', [validators.Length(min=1, max=5000)])
-    score       = FloatField('score')
+    score       = DecimalField('score', places=2)
     module_id   = IntegerField('module_id')
     
     def populate(self, module):

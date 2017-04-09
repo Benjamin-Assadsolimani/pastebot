@@ -76,13 +76,15 @@ def create_paste():
 
 @app.route('/module/match', methods=['POST'])
 def match_modules():
-    data= getData()
+    data= getPostData()
     if data != None:
-        m= modules.match(data)
-        paste_form= PasteForm()
-        paste_form.populateModules(m)
-        
-        return render_template('module.html', form= paste_form)
+        if "data" in data:
+            m= modules.match(data["data"])
+            m.sort(key= lambda x:x["score"], reverse= True)
+            paste_form= PasteForm()
+            paste_form.populateModules(m)
+            
+            return render_template('module.html', form= paste_form)
     
     return "Error while trying to match modules!";
     
@@ -90,25 +92,26 @@ def match_modules():
 
 @app.route('/module/<int:module_id>/process', methods=['POST'])
 def process_module(module_id):
-    data= getData()
+    data= getPostData()
     
     if data != None:
-        m= modules.getModule(module_id)
-        if m != None:
-            try:
-                return m.process(data)
-            except:
-                return "Module had an error while processing data!"
+        if "data" in data:
+            data= data["data"]
+            m= modules.getModule(module_id)
+            if m != None:
+                try:
+                    return m.process(data)
+                except:
+                    return "Module had an error while processing data!"
     return "Error!"
 
 
-def getData():
+def getPostData():
     if request.method == 'POST':
         if request.data:
             try:
                 data= json.loads(request.data)
-                if "data" in data:
-                    return data["data"]
+                return data
             except ValueError:
                 return None
                     

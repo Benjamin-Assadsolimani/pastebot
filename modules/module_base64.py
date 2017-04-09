@@ -3,7 +3,7 @@ from re import compile
 
 class Base64():
     def name(self):
-        return "base64-decode";
+        return "Base64-Decode";
     
     def match(self, input):
         res= self.matchb64(input)

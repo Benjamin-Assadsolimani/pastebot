@@ -12,12 +12,12 @@ class Module():
     
     #@input string 
     #@return match index [0, 1] indicating how well the input matches the module
-    def match(self, input):
+    def match(self, text):
         return 0
     
     #@input string
     #@return the processed user input
-    def process(self, input):
+    def process(self, text):
         return input
     
     
