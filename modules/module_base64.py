@@ -3,11 +3,15 @@ from base64 import b64decode
 import re
 
 class Module():
+    def __init__(self):
+        self.regex= re.compile("^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$")
+        
+        
     def name(self):
         return "Base64-Decode";
     
     def match(self, text):
-        res= self.matchb64(text)
+        res= self.regex.match(text)
         if res != None:
             return 1
         else:
@@ -18,12 +22,6 @@ class Module():
             return b64decode(text.encode("utf8"))
         except:
             return "invalid base64!"
-        
-    
-    def matchb64(self, text):
-        prog= re.compile("^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$")
-        res= prog.match(text)
-        return res
         
         
     def test(self):

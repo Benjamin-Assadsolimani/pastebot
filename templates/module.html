@@ -6,6 +6,8 @@
 			{{module.form.score(size="1", readonly= true, class="input-read-only")}}
 			<strong>{{module.form.mod_name(size="20", readonly= true, class="input-read-only")}}</strong>
 			<i class="flush-right glyphicon glyphicon-star-empty module-star"></i>
+			<i class="flush-right glyphicon glyphicon-save module-download"></i>
+
 		</div>
 		<div class="module-body" {% if module.form.content.data == "" %} style="display: none;" {% endif %}>
 			{{module.form.content(id= "module_content", readonly= true, rows="8", class="form-control")}}

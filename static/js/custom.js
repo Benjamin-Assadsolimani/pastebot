@@ -46,6 +46,16 @@ $('body').on('click', '.module-star', function(e){
 	e.stopPropagation();
 });
 
+$('body').on('click', '.module-download', function(e){
+	var module_body= $(this).parent().parent().children('.module-body');
+	var id= $(module_body).children('#module_id').val();
+	var paste_content= $('#paste_content').val();
+	var url="/module/"+id+"/download?content="+encodeURIComponent(paste_content);
+	window.open(url, '_blank');
+	
+	e.stopPropagation();
+});
+
 
 function refreshModule(module_body){
 	var id= $(module_body).children('#module_id').val();

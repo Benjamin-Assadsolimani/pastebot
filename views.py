@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for
+from flask import render_template, request, redirect, url_for, Response
 from __init__ import app, db
 from models import Paste, Module
 import json
@@ -98,15 +98,26 @@ def process_module(module_id):
     if data != None:
         if "data" in data:
             data= data["data"]
-            m= module_handler.getModule(module_id)
-            if m != None:
-                try:
-                    return m.process(data)
-                except:
-                    return "Module had an error while processing data:"+str(sys.exc_info()[0])+"\n"+traceback.format_exc()
+            return process_data(module_id, data)
                     
     return "Error!"
 
+@app.route('/module/<int:module_id>/download', methods=['GET'])
+def download_module(module_id):
+    data= request.args.get('content')
+    if data:
+        text= process_data(module_id, data)
+        return Response(text, mimetype='text/plain')
+    return "Error!"
+
+def process_data(module_id, data):
+    m= module_handler.getModule(module_id)
+    if m != None:
+        try:
+            return m.process(data)
+        except:
+            return "Module had an error while processing data:"+str(sys.exc_info()[0])+"\n"+traceback.format_exc()
+    return "Module id not found!"
 
 def getPostData():
     if request.method == 'POST':
