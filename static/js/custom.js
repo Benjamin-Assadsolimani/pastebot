@@ -38,6 +38,12 @@ $('body').on('click', '.module-header', function(e){
 		refreshModule(module_body);
 	}
 	module_body.toggle();
+	
+	if(module_body.is(":hidden")){
+		module_body.children('#module_expanded').val('0');
+	}else{
+		module_body.children('#module_expanded').val('1');
+	}
 });
 
 $('body').on('click', '.module-star', function(e){

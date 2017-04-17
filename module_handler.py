@@ -17,9 +17,10 @@ def match(data):
     res= []
     for module_id, module in zip(range(len(MODULES)), MODULES):
         m= {}
-        m["name"]= module.name()
-        m["module_id"]= module_id
-        m["content"]= ""
+        m["name"]       = module.name()
+        m["module_id"]  = module_id
+        m["content"]    = ""
+        m["expanded"]   = 0
         try:
             score= module.match(data)
             if score > 1:

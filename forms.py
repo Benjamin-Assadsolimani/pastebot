@@ -9,6 +9,7 @@ class ModuleForm(FlaskForm):
     content     = TextAreaField('content', [validators.Length(min=1, max=5000)])
     score       = DecimalField('score', places=2)
     module_id   = IntegerField('module_id')
+    expanded    = IntegerField('expanded')
     
     def populate(self, module):
         if isinstance(module, dict):
@@ -16,11 +17,13 @@ class ModuleForm(FlaskForm):
             self.content    = module["content"]
             self.score      = module["score"]
             self.module_id  = module["module_id"]
+            self.expanded   = module["expanded"]
         else:
             self.mod_name   = module.name
             self.content    = module.content
             self.score      = module.score
             self.module_id  = module.module_id
+            self.expanded   = 0 if module.content == "" else 1
     
     def __repr__(self):
         return "ModuleForm <name: "+self.name+", content: "+self.content+", score: "+str(self.score)+", module_id: "+self.module_id+">"            

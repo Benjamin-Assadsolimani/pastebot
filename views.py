@@ -62,6 +62,10 @@ def create_paste():
         
         
         for module in form.modules:
+            if not module.expanded.data:
+                #skip content of non-expanded modules
+                module.content.data= ""
+                
             m= Module(name= module.mod_name.data,
                       score= module.score.data, 
                       content= module.content.data, 
