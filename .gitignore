@@ -91,7 +91,8 @@ ENV/
 .project
 .pydevproject
 
-#Flask
+#Custom
 *.db
 db.old/
 .settings/
+releases/
