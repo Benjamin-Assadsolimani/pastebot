@@ -1,35 +1,38 @@
-###############################
-#       URL DECODE            #
-###############################
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+###################################
+#           URL DECODER           #
+# author: derbenoo                #
+###################################
+
 from __future__ import division
 from urllib import unquote
 import re
 
 class Module():
+    def __init__(self):
+        self.regex= re.compile(r'%[A-F0-9]{2}')
+        
     def name(self):
-        return "URL-Decode";
+        return "URL-Decoder";
     
-    #@input string 
-    #@return match index [0, 1] indicating how well the input matches the module
     def match(self, text):
-        errors= len(re.findall('[^#:\-%./a-zA-z0-9]', text))
-        matches= len(re.findall('%[A-F0-9][A-F0-9]', text))*3-errors
+        matches= len(self.regex.findall(text))*3
         score= matches/(len(text)+1)
         score*=3
         return score
     
-    #@input string
-    #@return the processed user input
     def process(self, text):
         try:
             return unquote(text)
         except:
-            return "urllib.unquote error"
+            return text
     
-    #self-testing
     def test(self):
         pass
 
 if __name__ == "__main__":
     m= Module()
+    print("Running tests for module "+m.name()+": ")
     m.test()

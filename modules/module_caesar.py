@@ -1,25 +1,28 @@
-###############################
-#       MODULE CAESAR         #
-###############################
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+###################################
+#          CAESAR CIPHER          #
+# author: derbenoo                #
+###################################
+
 from __future__ import division
 import string
 import re
 
 class Module():
+    def __init__(self):
+        pass
+    
     def name(self):
         return "Caesar-Cipher";
-
     
-    #@input string 
-    #@return match index [0, 1] indicating how well the input matches the module
     def match(self, text):
         score= len(re.findall('[a-zA-z]', text))/len(text)
         return score
-    
-    #@input string
-    #@return the processed user input
+
     def process(self, text):
-        return self.guessShift(text)
+        return self.shiftAll(text)
     
     def shift(self, cipher, shift=[1]):
         res= ""
@@ -39,7 +42,7 @@ class Module():
         return res
     
     
-    def guessShift(self, cipher, key= [-1]):
+    def shiftAll(self, cipher, key= [-1]):
         res= []
         for i in xrange(1, 26):
             cipher= self.shift(cipher, key)
@@ -47,11 +50,11 @@ class Module():
         
         return '\n'.join(res)
     
-    
-    #self-testing
+
     def test(self):
         pass
 
 if __name__ == "__main__":
     m= Module()
+    print("Running tests for module "+m.name()+": ")
     m.test()

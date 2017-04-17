@@ -1,14 +1,15 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
-'''
-Created on 5 Mar 2017
 
-@author: rf
-'''
+###################################
+#         MODULE TEMPLATE         #
+# author: rf                      #
+###################################
+
 import base64
 import datetime
 import time
 import urlparse
-
 import re
 
 REGEXP_HOST = re.compile("(?<=Host: ).*")
