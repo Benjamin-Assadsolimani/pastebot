@@ -46,6 +46,11 @@ $('body').on('click', '.module-header', function(e){
 	}
 });
 
+$('body').on('focus', '.input-read-only', function(e){
+	//for firefox
+	this.blur();
+});
+
 $('body').on('click', '.module-star', function(e){
 	$(this).toggleClass('glyphicon-star');
 	$(this).toggleClass('glyphicon-star-empty');	

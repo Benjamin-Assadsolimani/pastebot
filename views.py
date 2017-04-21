@@ -62,7 +62,7 @@ def create_paste():
         
         
         for module in form.modules:
-            if not module.expanded.data:
+            if module.expanded.data == 0:
                 #skip content of non-expanded modules
                 module.content.data= ""
                 

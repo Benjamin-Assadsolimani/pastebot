@@ -5,7 +5,8 @@ MODULES= [
     module_urldecode.Module(),
     module_htmldecode.Module(),
     module_request2requests.Module(),
-    module_caesar.Module()
+    module_caesar.Module(),
+    module_urlscan.Module()
     ]
 
 def getModule(module_id):
