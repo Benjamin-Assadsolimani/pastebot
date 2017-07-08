@@ -68,12 +68,7 @@ class NotSupportedException(Exception):
     pass
 
 class Module(object):
-    def __init__(self, request= "", addBurpProxy=False):
-        self.request = request
-        self.result = ""
-        self.indent = ""
-        self.addHeader()
-        self.extensions = ""
+    def __init__(self, addBurpProxy=False):
         self.addBurpProxy = addBurpProxy
         
     def name(self):
@@ -88,6 +83,10 @@ class Module(object):
 
     def process(self, text):
         self.request= text
+        self.result = ""
+        self.indent = ""
+        self.addHeader()
+        self.extensions = ""
         return self.transform()
         
     def addLine(self, line, indentAfter=0):
@@ -116,9 +115,9 @@ class Module(object):
         
     def addTrailer(self):
         self.addNewLine()
+        self.addLine("print(result.text)")
         self.addLine("#result.status_code")
         self.addLine("#result.headers")
-        self.addLine("#result.text")
         
         
     def addRequestMethod(self):
